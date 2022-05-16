@@ -1,0 +1,6 @@
+__pycache__
+.venv
+anti-captcha.key
+links.txt
+links.json
+anticaptcha-plugin
