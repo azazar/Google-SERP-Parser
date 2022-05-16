@@ -1,6 +1,6 @@
 # Google SERP Parser
 
-A small tool to load Google SERP results and parse them into a JSON or CSV format.
+A small tool to load Google SERP and parse them into a JSON or CSV format.
 
 ## Usage
 
