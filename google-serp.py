@@ -17,10 +17,10 @@ class Google:
         if proxy is not None:
             options.add_argument('--proxy-server={}'.format(proxy))
 
-            options.headless = headless
+        options.headless = headless
 
-            if options.headless:
-                sys.stderr.write('Warning: Headless mode enabled. It is experimental and not guaranteed to work.\n')
+        if headless:
+            sys.stderr.write('Warning: Headless mode enabled. It is experimental and not guaranteed to work.\n')
         # Enable headless mode if there is no X server
         elif os.environ.get('DISPLAY') is None:
             options.headless = True
