@@ -6,6 +6,7 @@ from selenium.webdriver.support.ui import WebDriverWait
 import undetected_chromedriver as uc
 import anticaptcha
 import json
+import sys
 
 
 class Google:
@@ -19,12 +20,12 @@ class Google:
             options.headless = headless
 
             if options.headless:
-                print('Warning: Headless mode enabled. It is experimental and not guaranteed to work.')
+                sys.stderr.write('Warning: Headless mode enabled. It is experimental and not guaranteed to work.\n')
         # Enable headless mode if there is no X server
         elif os.environ.get('DISPLAY') is None:
             options.headless = True
 
-            print('Warning: DISPLAY environment variable is not set. Headless mode enabled. It is experimental and not guaranteed to work.')
+            sys.stderr.write('Warning: DISPLAY environment variable is not set. Headless mode enabled. It is experimental and not guaranteed to work.\n')
 
         self.driver = None
 
