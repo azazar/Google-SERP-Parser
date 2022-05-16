@@ -20,7 +20,7 @@ class Google:
 
         # Enable headless mode if there is no X server
         if os.environ.get('DISPLAY') is None:
-            headless = True
+            options.headless = True
 
             print('Warning: DISPLAY environment variable is not set. Headless mode enabled. It is experimental and not guaranteed to work.')
 
