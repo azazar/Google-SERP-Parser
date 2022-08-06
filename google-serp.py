@@ -139,9 +139,6 @@ if __name__ == '__main__':
             try:
                 results = goog.parse_serp(query, page_limit)
 
-                for link in results:
-                    print(link)
-
                 if output_file is not None:
                     # ext is .json
                     if output_file[-5:] == '.json':
