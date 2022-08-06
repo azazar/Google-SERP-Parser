@@ -32,12 +32,14 @@ class Google:
 
         self.driver = None
 
+        start_url = 'https://google.com/ncr'
+
         if anticaptcha.key_available():
-            self.driver = anticaptcha.open_undetected_chrome('https://google.com/', options=options, version_main=chrome_version)
+            self.driver = anticaptcha.open_undetected_chrome(start_url, options=options, version_main=chrome_version)
         else:
             self.driver = uc.Chrome(options, version_main=chrome_version)
 
-            self.driver.get('https://google.com/')
+            self.driver.get(start_url)
 
         self.wait = WebDriverWait(self.driver, 30)
 
@@ -119,7 +121,7 @@ def get_chrome_major_version():
 if __name__ == '__main__':
     parser = argparse.ArgumentParser(description='Google SERP Parser')
     parser.add_argument('-o', '--output', help='Output File', required=False)
-    parser.add_argument('-l', '--limit', help='Max Number of Pages', required=False)
+    parser.add_argument('-n', '--limit', help='Max Number of Pages', required=False, default='100')
     parser.add_argument('-p', '--proxy', help='Proxy Address', required=False)
     parser.add_argument('-e', '--headless', help='Headless Mode', action='store_true', required=False, default=False)
     parser.add_argument('arg',
@@ -129,10 +131,7 @@ if __name__ == '__main__':
 
     args = vars(parser.parse_args())
     output_file = args['output']
-    if 'limit' in args:
-        page_limit = int(args['limit'])
-    else:
-        page_limit = 100
+    page_limit = int(args['limit'])
 
     if len(args['arg']) > 0:
         goog = Google(args['proxy'], args['headless'])

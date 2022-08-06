@@ -19,7 +19,7 @@
             "program": "google-serp.py",
             "args": [
                 "-o", "links.tsv",
-                "-l", "3",
+                "-n", "2",
                 "free xxx",
                 "xxx tube",
             ],
