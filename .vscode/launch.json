@@ -19,7 +19,9 @@
             "program": "google-serp.py",
             "args": [
                 "-o", "links.json",
-                "fbsearch.ru/away.php"
+                "-l", "3",
+                "free xxx",
+                "xxx tube",
             ],
             "console": "integratedTerminal",
             "justMyCode": true

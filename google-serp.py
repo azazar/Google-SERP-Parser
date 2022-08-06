@@ -52,7 +52,7 @@ class Google:
         if self.driver is not None:
             self.driver.quit()
 
-    def parse_serp(self, query):
+    def parse_serp(self, query, max_page=100):
         url = 'https://google.com/search?q={}'.format(urllib.parse.quote(query))
 
         self.driver.get(url)
@@ -62,6 +62,8 @@ class Google:
 
         while True:
             self.wait.until(lambda driver: driver.find_element(By.CSS_SELECTOR, 'a h3'))
+
+            position = 0
 
             for h3 in self.driver.find_elements(By.CSS_SELECTOR, 'a h3'):
                 a = h3.find_element(By.XPATH, '..')
@@ -74,9 +76,23 @@ class Google:
                 except:
                     snippet = None
 
-                results.append({'title': title, 'url': url, 'snippet': snippet})
+                position = position + 1
+
+                result = {
+                    'url': url,
+                    'title': title,
+                    'snippet': snippet,
+                    'query': query,
+                    'page': next_page,
+                    'position': position,
+                }
+
+                results.append(result)
 
             next_page = next_page + 1
+
+            if next_page > max_page:
+                return results
 
             found = False
             for a in self.driver.find_elements(By.CSS_SELECTOR, 'td a[aria-label]'):
@@ -102,6 +118,7 @@ def get_chrome_major_version():
 if __name__ == '__main__':
     parser = argparse.ArgumentParser(description='Google SERP Parser')
     parser.add_argument('-o', '--output', help='Output File', required=False)
+    parser.add_argument('-l', '--limit', help='Max Number of Pages', required=False)
     parser.add_argument('-p', '--proxy', help='Proxy Address', required=False)
     parser.add_argument('-e', '--headless', help='Headless Mode', action='store_true', required=False, default=False)
     parser.add_argument('arg',
@@ -111,12 +128,16 @@ if __name__ == '__main__':
 
     args = vars(parser.parse_args())
     output_file = args['output']
+    if 'limit' in args:
+        page_limit = int(args['limit'])
+    else:
+        page_limit = 100
 
     if len(args['arg']) > 0:
         goog = Google(args['proxy'], args['headless'])
         for query in args['arg']:
             try:
-                results = goog.parse_serp(query)
+                results = goog.parse_serp(query, page_limit)
 
                 for link in results:
                     print(link)
