@@ -35,7 +35,7 @@ def key_available():
     return os.path.exists('anti-captcha.key')
 
 
-def open_undetected_chrome(url='https://antcpt.com/blank.html', options=None):
+def open_undetected_chrome(url='https://antcpt.com/blank.html', options=None, version_main=None):
     extension_download_url = 'https://antcpt.com/downloads/anticaptcha/chrome/anticaptcha-plugin_v0.62.zip'
     extension_path = 'anticaptcha-plugin'
     extension_abs_path = '{}/{}'.format(os.getcwd(), extension_path)
@@ -56,7 +56,7 @@ def open_undetected_chrome(url='https://antcpt.com/blank.html', options=None):
         os.system('cd {} && wget {} -O plugin.zip && unzip plugin.zip; rm plugin.zip'.format(extension_path,
                                                                                              extension_download_url))
 
-    browser = uc.Chrome(options=options)
+    browser = uc.Chrome(options=options, version_main=version_main)
 
     browser.get(url)
 

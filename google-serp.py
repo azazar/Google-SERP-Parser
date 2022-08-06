@@ -14,6 +14,8 @@ class Google:
     def __init__(self, proxy=None, headless=False):
         options = uc.ChromeOptions()
 
+        chrome_version = get_chrome_major_version()
+
         if proxy is not None:
             options.add_argument('--proxy-server={}'.format(proxy))
 
@@ -30,17 +32,19 @@ class Google:
         self.driver = None
 
         if anticaptcha.key_available():
-            self.driver = anticaptcha.open_undetected_chrome('https://google.com/', options=options)
+            self.driver = anticaptcha.open_undetected_chrome('https://google.com/', options=options, version_main=chrome_version)
         else:
-            self.driver = uc.Chrome(options)
+            self.driver = uc.Chrome(options, version_main=chrome_version)
 
             self.driver.get('https://google.com/')
 
         self.wait = WebDriverWait(self.driver, 30)
 
-        self.wait.until(lambda driver: driver.find_element(By.CSS_SELECTOR, 'span>div[class][id]>div[class]>div[class]>div[class]>button'))
+        selector = 'span>div>div>div>div>div>button'
 
-        buttons = self.driver.find_elements(By.CSS_SELECTOR, 'span>div[class][id]>div[class]>div[class]>div[class]>button')
+        self.wait.until(lambda driver: driver.find_element(By.CSS_SELECTOR, selector))
+
+        buttons = self.driver.find_elements(By.CSS_SELECTOR, selector)
 
         buttons[1].click()
 
@@ -84,6 +88,15 @@ class Google:
 
             if not found:
                 return results
+
+
+def get_chrome_major_version():
+    output = os.popen('chromium-browser --version').read().split(' ')
+
+    if output[0] == 'Chromium':
+        return output[1].split('.')[0]
+
+    return None
 
 
 if __name__ == '__main__':
