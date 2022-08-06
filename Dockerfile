@@ -12,4 +12,4 @@ RUN apt-get update -y \
 
 WORKDIR /opt/Google-SERP-Parser
 
-ENTRYPOINT [ "/usr/bin/python3", "google-serp.py" ]
+ENTRYPOINT [ "/usr/bin/python3", "google-serp.py", "-o", "/dev/stdout" ]
