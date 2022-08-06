@@ -1,6 +1,6 @@
 __pycache__
 venv
 anti-captcha.key
-links.txt
+links.tsv
 links.json
 anticaptcha-plugin

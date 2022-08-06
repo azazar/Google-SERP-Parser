@@ -18,7 +18,7 @@
             "request": "launch",
             "program": "google-serp.py",
             "args": [
-                "-o", "links.json",
+                "-o", "links.tsv",
                 "-l", "3",
                 "free xxx",
                 "xxx tube",

@@ -6,6 +6,7 @@ from selenium.webdriver.support.ui import WebDriverWait
 import undetected_chromedriver as uc
 import anticaptcha
 import json
+import csv
 import sys
 
 
@@ -145,9 +146,14 @@ if __name__ == '__main__':
                         with open(output_file, 'a') as f:
                             f.write(json.dumps(results))
                     else:
-                        with open(output_file, 'a') as f:
+                        with open(output_file, 'a', newline='') as f:
+                            if output_file[-4:] == '.tsv':
+                                delim = '\t'
+                            else:
+                                delim = ','
+                            w = csv.writer(f, delimiter=delim, quotechar='"', quoting=csv.QUOTE_MINIMAL)
                             for link in results:
-                                f.write(link['url'] + '\t' + link['title'] + '\n')
+                                w.writerow([link['url'], link['title'], link['snippet'], link['query'], link['page'], link['position']])
 
             except Exception as e:
                 print('{}: {}'.format(query, e))
