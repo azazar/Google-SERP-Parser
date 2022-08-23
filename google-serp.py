@@ -56,6 +56,8 @@ class Google:
             self.driver.quit()
 
     def parse_serp(self, query, max_page=100):
+        query = query.replace('_', ' ')
+
         url = 'https://google.com/search?q={}'.format(urllib.parse.quote(query))
 
         self.driver.get(url)
