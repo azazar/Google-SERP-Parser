@@ -1,4 +1,4 @@
-FROM debian:bullseye
+FROM debian:11
 
 RUN apt-get update -y \
  && apt-get install --no-install-recommends -y chromium git python3 python3-pip \
